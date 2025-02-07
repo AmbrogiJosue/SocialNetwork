@@ -1,0 +1,121 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div id="center" class="w-50">
+        <div id="post-form" class="border border-secondary p-5">
+            <form  method="POST" class="text-center"> 
+                {%csrf_token%}
+                <div>
+                  <textarea class="border-secondary text-white w-100 content" id="content" onkeyup="check_input()" placeholder="What's happening?" required name="content"></textarea>
+                  <div class="d-flex justify-content-between mt-3">
+                      <input type="file" style="display: none;" id="post-img" accept="image/png, image/jpg, image/jpeg, image/gif" name="image">
+                      <label for="post-img" role="button">
+                        <i class="fa-regular fa-image fa-lg" style="color: #0d6efd;"></i>
+                      </label> 
+                    <input type="submit" class="btn btn-primary rounded-pill disabled" id="post-btn" value="Post" />
+                  </div>
+                </div>
+            </form>
+        </div>
+        <div class="body" id="profile"></div>
+        <div class="body mt-3" id="main">
+            <div class="body mb-3" id="posts"></div>
+        <div id="pagination-btns">
+          <nav class="d-flex justify-content-center">
+            <ul class="pagination">
+              <li class="page-item"><button type="button" class="page-link" id="prev-btn">previous</button></li>
+              <li class="page-item page-link" id="current-page">1</li>
+              <li class="page-item"><button type="button" class="page-link" id="next-btn">next</button></li>
+            </ul>
+        </nav>
+        </div>
+        
+        </div>
+        <div id="comment-section">
+          <h4>Comments</h4>
+          <div id="comment-form">
+            <form method="post">
+              {%csrf_token%}
+              <div>
+                <textarea class="border text-white w-100 content" id="comment" placeholder="Comment on this post" required></textarea>
+                <input type="submit" class="btn btn-primary rounded-pill mb-3" value="Reply"/>
+              </div>
+            </form>
+            <div id="comments" class="border "></div>
+          </div>
+        </div>
+    </div>
+    <div id="recomendations" class="border-secondary rounded-4 bg-dark p-5 m-3" >
+        <h3>Who to follow</h3>
+    </div>
+    <div class="modal fade" id="profileModal" tabindex="-1"  aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content bg-black border">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Edit Profile</h1>
+          </div>
+          <div class="modal-body">
+            <form method="POST" id="profile-form" enctype="multipart/form-data">
+              {%csrf_token%}
+              <div class="mb-3">
+                <input class="content w-100 " name="name" placeholder="Name">
+              </div>
+              <div class="mb-3">
+                <textarea class="content w-100 " name="bio" placeholder="Bio"></textarea>
+              </div>
+              <div class="mb-3">
+                <input class="content  w-100 " name="link" placeholder="Link">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Header picture</label>
+                <input class="form-control content" type="file" name="headerpic" accept="image/png, image/jpg, image/jpeg, image/gif">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Profile picture</label>
+                <input class="form-control content" type="file" name="profilepic" accept="image/png, image/jpg, image/jpeg, image/gif">
+              </div>
+          </div>
+              <div class="modal-footer">
+                  <button type="button" id="btn-delete" class="btn btn-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete account</button>
+                  <button type="button" id="btn-close" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                  <input type="submit" class="btn btn-primary rounded-pill" value="Save Changes">
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editModal" tabindex="-1"  aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content bg-black border">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Edit Post</h1>
+          </div>
+          <div class="modal-body">
+            <form method="POST" id="edit-form">
+              {%csrf_token%}
+              <div class="mb-3">
+                <textarea class="content w-100 text-white" id="edit-text" required></textarea>
+              </div>
+          </div>
+              <div class="modal-footer">
+                  <button type="button" id="btn-cancel" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                  <input type="submit" class="btn btn-primary rounded-pill" value="Save Changes">
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal" tabindex="-1" id="deleteModal">
+      <div class="modal-dialog">
+        <div class="modal-content bg-black border">
+          <div class="modal-body text-white">
+            <p>Are you sure you want to delete this account?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#profileModal">Cancel</button>
+            <button type="button" class="btn btn-danger" id="btn-confirm-delete">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
